@@ -1,0 +1,43 @@
+Jordan Mills
+jordan.mills@email.com | (512) 449-0283 | Austin, TX
+github.com/jordanmills | linkedin.com/in/jordanmills
+
+EXPERIENCE
+
+Software Engineer — Bright Labs, Austin TX (Jan 2022 – Present)
+- Built and maintained REST APIs serving 400K+ daily active users using Node.js and PostgreSQL
+- Reduced average API response time by 38% by introducing query caching with Redis
+- Led migration of legacy monolith to microservices, cutting deployment frequency from bi-weekly to daily
+- Mentored 2 junior engineers through code reviews and weekly 1:1s
+
+Junior Software Engineer — Stackform, Remote (Aug 2020 – Dec 2021)
+- Developed React frontend features for a B2B SaaS project management tool (15K+ users)
+- Integrated third-party payment processing via Stripe, handling $1.2M in annual transactions
+- Wrote unit and integration tests bringing coverage from 41% to 78%
+- Collaborated with design team to implement responsive UI overhaul, reducing mobile bounce rate by 22%
+
+Software Engineering Intern — NovaTech Solutions, Austin TX (May 2019 – Aug 2019)
+- Built internal data dashboard using React and D3.js to visualize sales pipeline metrics
+- Automated weekly reporting scripts in Python, saving 4 hours of manual work per week
+
+EDUCATION
+
+B.S. Computer Science — University of Texas at Austin (2020)
+Relevant coursework: Data Structures, Algorithms, Distributed Systems, Database Systems
+
+SKILLS
+
+Languages: JavaScript, TypeScript, Python, SQL
+Frontend: React, Next.js, HTML/CSS
+Backend: Node.js, Express, REST APIs, GraphQL
+Databases: PostgreSQL, MySQL, Redis, MongoDB
+Tools: Git, Docker, AWS (EC2, S3, Lambda), CI/CD (GitHub Actions), Jira
+
+PROJECTS
+
+OpenTrack (github.com/jordanmills/opentrack)
+Job application tracker built with Next.js and Supabase. 600+ GitHub stars.
+Features email parsing to auto-import applications and status tracking across stages.
+
+BudgetAPI (github.com/jordanmills/budgetapi)
+Open source personal finance REST API in Node.js with JWT auth, rate limiting, and Swagger docs.

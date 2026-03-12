@@ -25,9 +25,7 @@ h1 {
   margin-bottom: 36px;
 }
 
-.section {
-  margin-bottom: 28px;
-}
+.section { margin-bottom: 28px; }
 
 label {
   display: block;
@@ -77,16 +75,8 @@ input[type="text"]:focus { outline: none; border-color: #374151; }
   transition: border-color 0.15s, background 0.15s;
 }
 
-.drop-zone:hover, .drop-zone.dragging {
-  border-color: #374151;
-  background: #f9fafb;
-}
-
-.drop-zone.has-file {
-  border-color: #16a34a;
-  background: #f0fdf4;
-}
-
+.drop-zone:hover, .drop-zone.dragging { border-color: #374151; background: #f9fafb; }
+.drop-zone.has-file { border-color: #16a34a; background: #f0fdf4; }
 .drop-zone p { font-size: 0.875rem; color: #6b7280; }
 .drop-zone .file-name { font-size: 0.875rem; color: #16a34a; font-weight: 500; margin-top: 4px; }
 .drop-zone input { display: none; }
@@ -141,39 +131,6 @@ select:focus { outline: none; border-color: #374151; }
 .btn-generate:hover:not(:disabled) { opacity: 0.85; }
 .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.divider {
-  border: none;
-  border-top: 1px solid #e5e7eb;
-  margin: 36px 0;
-}
-
-.output-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.btn-copy {
-  padding: 6px 14px;
-  background: transparent;
-  border: 1px solid #d1d5db;
-  border-radius: 5px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
-}
-
-.btn-copy:hover { border-color: #374151; background: #f9fafb; }
-.btn-copy.copied { border-color: #16a34a; color: #16a34a; }
-
-.output-note {
-  font-size: 0.78rem;
-  color: #9ca3af;
-  margin-bottom: 10px;
-}
-
 .error {
   background: #fef2f2;
   border: 1px solid #fca5a5;
@@ -197,3 +154,122 @@ select:focus { outline: none; border-color: #374151; }
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Letter Page ─────────────────────────────────────────── */
+
+.letter-page { display: flex; flex-direction: column; }
+
+.letter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.btn-back:hover { color: #1c1c1c; }
+
+.btn-copy {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.btn-copy:hover { border-color: #374151; background: #f9fafb; }
+.btn-copy.copied { border-color: #16a34a; color: #16a34a; }
+
+.letter-hint {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+.paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.para-block {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 16px 72px 16px 16px;
+  transition: border-color 0.15s;
+}
+
+.para-block:hover:not(.para-disabled):not(.para-rethinking) { border-color: #9ca3af; }
+.para-rethinking { opacity: 0.6; }
+.para-disabled { opacity: 0.7; }
+
+.para-text {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: #1c1c1c;
+  cursor: text;
+  white-space: pre-wrap;
+}
+
+.para-textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: #1c1c1c;
+  font-family: inherit;
+  background: transparent;
+  padding: 0;
+  overflow: hidden;
+  min-height: 24px;
+}
+
+.btn-rethink {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px 8px;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.btn-rethink:hover:not(:disabled) {
+  border-color: #374151;
+  color: #1c1c1c;
+  background: #f9fafb;
+}
+
+.btn-rethink:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.rethink-placeholder { color: #9ca3af; font-style: italic; }
+
+.blink-dots { animation: blink 1s step-start infinite; }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

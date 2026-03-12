@@ -1,0 +1,26 @@
+Software Engineer — Relay (Austin, TX)
+
+Relay is a fintech startup building the banking platform for small businesses.
+We're looking for a mid-level software engineer to join our product team and
+help scale our core backend infrastructure.
+
+What you'll do:
+- Design and build APIs that power Relay's web and mobile products
+- Improve reliability and performance of our Node.js backend services
+- Collaborate with product and design to ship features end to end
+- Participate in code review and help raise the bar for engineering quality
+- Contribute to architectural decisions as we scale from thousands to millions of users
+
+What we're looking for:
+- 2–5 years of software engineering experience
+- Strong foundation in backend development (Node.js preferred)
+- Experience with relational databases (PostgreSQL a plus)
+- Comfortable working across the stack when needed
+- Someone who takes ownership and communicates clearly
+
+Nice to have:
+- Experience with microservices or distributed systems
+- Familiarity with AWS or similar cloud platforms
+- Prior work at a startup or high-growth company
+
+We're a small team that moves fast. You'll have real ownership over what you build.
