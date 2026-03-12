@@ -1,6 +1,6 @@
 # Cover Letter Generator
 
-Upload a resume + paste a job posting and get a personalized cover letter example that sounds like you -- The customize to perfection.
+Upload a resume + paste a job posting and get a personalized cover letter example that sounds like you -- Then customize to perfection.
 
 ## Features
 
