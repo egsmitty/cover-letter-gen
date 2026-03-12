@@ -54,6 +54,8 @@ function LetterPage({ paragraphs, setParagraphs, resumeText, jobPosting, company
     }
   }
 
+  const last = paragraphs.length - 1;
+
   return (
     <div className="letter-page">
       <div className="letter-header">
@@ -63,9 +65,9 @@ function LetterPage({ paragraphs, setParagraphs, resumeText, jobPosting, company
         </button>
       </div>
 
-      <p className="letter-hint">Click any paragraph to edit. Use "Rethink" to regenerate just that paragraph.</p>
+      <p className="letter-hint">Click any paragraph to edit. Use "↺ Rethink" to regenerate a middle paragraph.</p>
 
-      {error && <div className="error" style={{ marginBottom: 16 }}>{error}</div>}
+      {error && <div className="error" role="alert" style={{ marginBottom: 16 }}>{error}</div>}
 
       <div className="paragraphs">
         {paragraphs.map((para, i) => (
@@ -73,6 +75,7 @@ function LetterPage({ paragraphs, setParagraphs, resumeText, jobPosting, company
             key={i}
             text={para}
             isRethinking={rethinking === i}
+            isEdge={i === 0 || i === last}
             onChange={val => setParagraphs(prev => prev.map((p, idx) => idx === i ? val : p))}
             onRethink={() => rethinkParagraph(i)}
             disabled={rethinking !== null}
@@ -83,9 +86,14 @@ function LetterPage({ paragraphs, setParagraphs, resumeText, jobPosting, company
   );
 }
 
-function ParagraphBlock({ text, isRethinking, onChange, onRethink, disabled }) {
+function ParagraphBlock({ text, isRethinking, isEdge, onChange, onRethink, disabled }) {
   const [editing, setEditing] = useState(false);
   const taRef = useRef(null);
+
+  // Close edit mode when another paragraph starts rethinking
+  useEffect(() => {
+    if (disabled && editing) setEditing(false);
+  }, [disabled]);
 
   useEffect(() => {
     if (editing && taRef.current) {
@@ -100,6 +108,9 @@ function ParagraphBlock({ text, isRethinking, onChange, onRethink, disabled }) {
     e.target.style.height = e.target.scrollHeight + 'px';
   }
 
+  // Rethink is only available for non-edge paragraphs with content
+  const canRethink = !isEdge && !disabled && !editing && text.trim() !== '';
+
   return (
     <div className={`para-block ${isRethinking ? 'para-rethinking' : ''} ${disabled && !isRethinking ? 'para-disabled' : ''}`}>
       {editing ? (
@@ -112,17 +123,21 @@ function ParagraphBlock({ text, isRethinking, onChange, onRethink, disabled }) {
         />
       ) : (
         <p className="para-text" onClick={() => !disabled && setEditing(true)}>
-          {isRethinking ? <span className="rethink-placeholder">Rethinking<span className="blink-dots">...</span></span> : text}
+          {isRethinking
+            ? <span className="rethink-placeholder">Rethinking<span className="blink-dots">...</span></span>
+            : text || <span className="para-empty">Empty — click to type</span>}
         </p>
       )}
-      <button
-        className="btn-rethink"
-        onClick={onRethink}
-        disabled={disabled}
-        title="Regenerate this paragraph"
-      >
-        {isRethinking ? '...' : '↺ Rethink'}
-      </button>
+      {!isEdge && (
+        <button
+          className="btn-rethink"
+          onClick={onRethink}
+          disabled={!canRethink}
+          title={text.trim() === '' ? 'Add some text before rethinking' : 'Regenerate this paragraph'}
+        >
+          {isRethinking ? '...' : '↺ Rethink'}
+        </button>
+      )}
     </div>
   );
 }
@@ -144,6 +159,9 @@ export default function App() {
   const [view, setView] = useState('form');
   const fileInputRef = useRef(null);
   const abortRef = useRef(null);
+
+  // Abort any in-flight generate request on unmount
+  useEffect(() => () => abortRef.current?.abort(), []);
 
   async function handleFile(file) {
     if (!file) return;
@@ -208,6 +226,14 @@ export default function App() {
     }
   }
 
+  function handleBack() {
+    // Warn if the user has a letter with edits they'd lose
+    if (paragraphs.length > 0 && !window.confirm('Go back? Your edits to this letter will be lost.')) return;
+    abortRef.current?.abort();
+    setError('');
+    setView('form');
+  }
+
   const canGenerate = resumeText && jobPosting.trim() && !loading && !uploading;
 
   if (view === 'letter') {
@@ -219,7 +245,7 @@ export default function App() {
         jobPosting={jobPosting}
         companyName={companyName}
         positionTitle={positionTitle}
-        onBack={() => setView('form')}
+        onBack={handleBack}
       />
     );
   }
@@ -233,7 +259,7 @@ export default function App() {
         <label>Resume</label>
         <div
           className={`drop-zone ${dragging ? 'dragging' : ''} ${resumeFileName ? 'has-file' : ''}`}
-          onClick={() => !uploading && fileInputRef.current.click()}
+          onClick={() => !uploading && !loading && fileInputRef.current.click()}
           onDragOver={e => { e.preventDefault(); setDragging(true); }}
           onDragLeave={() => setDragging(false)}
           onDrop={onDrop}
@@ -305,7 +331,7 @@ export default function App() {
         {loading ? 'Generating...' : 'Generate Cover Letter'}
       </button>
 
-      {error && <div className="error">{error}</div>}
+      {error && <div className="error" role="alert">{error}</div>}
     </>
   );
 }

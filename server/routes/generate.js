@@ -8,6 +8,9 @@ const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+const MODEL = 'claude-opus-4-6';
+const MAX_TOKENS = { short: 800, standard: 1024, detailed: 1500 };
+
 const VALID_TONES = ['professional', 'friendly', 'formal'];
 const VALID_LENGTHS = ['short', 'standard', 'detailed'];
 const VALID_FOCUSES = ['technical', 'leadership', 'culture'];
@@ -101,7 +104,7 @@ router.post('/parse-resume', upload.single('resume'), async (req, res) => {
   try {
     let text = '';
 
-    if (mimetype === 'application/pdf') {
+    if (mimetype === 'application/pdf' || originalname.toLowerCase().endsWith('.pdf')) {
       const data = await pdfParse(buffer);
       text = data.text;
     } else if (
@@ -141,8 +144,8 @@ router.post('/generate', async (req, res) => {
 
   try {
     const message = await client.messages.create({
-      model: 'claude-opus-4-6',
-      max_tokens: 1024,
+      model: MODEL,
+      max_tokens: MAX_TOKENS[VALID_LENGTHS.includes(length) ? length : 'standard'],
       messages: [{ role: 'user', content: prompt }],
     });
 
@@ -207,7 +210,7 @@ Output only the new paragraph. No quotes, no labels, no explanation.`;
 
   try {
     const message = await client.messages.create({
-      model: 'claude-opus-4-6',
+      model: MODEL,
       max_tokens: 512,
       messages: [{ role: 'user', content: prompt }],
     });
